@@ -20,6 +20,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;600&display=swap');
 
+        /* Varsayılan Karanlık Tema */
         :root {
             --bg-color: #0d0d0d;
             --card-bg: #181818;
@@ -29,6 +30,31 @@
             --fosfor-mavi: rgba(0, 176, 255, 0.25);
             --border-color: #262626;
             --drawer-width: 260px;
+            --header-bg: rgba(13, 13, 13, 0.85);
+            --title-color: #fff;
+            --label-color: #666;
+            --table-bg: #1e1e1e;
+            --drawer-bg: #121212;
+            --active-bg: linear-gradient(45deg, #1a1a1a, #2c1e4a);
+        }
+
+        /* Aydınlık Tema Modu */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #f5f5f7;
+                --card-bg: #ffffff;
+                --text-color: #333333;
+                --fosfor-kirmizi: rgba(255, 68, 68, 0.2);
+                --fosfor-sari: rgba(255, 215, 0, 0.3);
+                --fosfor-mavi: rgba(0, 176, 255, 0.15);
+                --border-color: #e0e0e0;
+                --header-bg: rgba(245, 245, 247, 0.85);
+                --title-color: #1d1d1f;
+                --label-color: #888;
+                --table-bg: #f9f9f9;
+                --drawer-bg: #ffffff;
+                --active-bg: linear-gradient(45deg, #f0f0f5, #e0d8f0);
+            }
         }
 
         * { box-sizing: border-box; }
@@ -42,18 +68,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         header { 
             position: sticky; top: 0; z-index: 1000;
-            background: rgba(13, 13, 13, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            background: var(--header-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             padding: 15px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 25px;
             width: 100vw; display: flex; align-items: center; justify-content: center;
         }
 
         .menu-btn {
             position: absolute; left: 15px; z-index: 1001;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+            background: rgba(128, 128, 128, 0.1); border: 1px solid var(--border-color);
             border-radius: 8px; padding: 6px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
         }
@@ -61,7 +88,7 @@
         .side-drawer {
             position: fixed; top: 0; left: calc(-1 * var(--drawer-width));
             width: var(--drawer-width); height: 100%;
-            background: #121212; border-right: 1px solid var(--border-color);
+            background: var(--drawer-bg); border-right: 1px solid var(--border-color);
             z-index: 1002; transition: 0.3s ease-in-out;
             padding: 60px 20px; box-sizing: border-box;
             overflow-y: auto;
@@ -71,7 +98,7 @@
         
         .drawer-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 1001;
+            background: rgba(0,0,0,0.5); z-index: 1001;
             display: none; backdrop-filter: blur(4px);
         }
         
@@ -80,27 +107,28 @@
         .menu-item {
             display: flex; align-items: center; gap: 12px;
             padding: 15px; border-radius: 10px;
-            color: #fff; text-decoration: none;
+            color: var(--text-color); text-decoration: none;
             font-size: 0.85rem; margin-bottom: 10px;
             transition: background 0.2s; border: 1px solid transparent;
             font-weight: 500;
         }
         
-        .menu-item:hover { background: #1a1a1a; border-color: var(--border-color); }
-        .menu-item svg { width: 20px; height: 20px; stroke: #fff; fill: none; }
+        .menu-item:hover { background: rgba(128, 128, 128, 0.1); border-color: var(--border-color); }
+        .menu-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; }
 
         .active-link-special {
-            background: linear-gradient(45deg, #1a1a1a, #2c1e4a);
+            background: var(--active-bg);
             border: 1px solid #4b307d !important;
+            color: #4b307d;
         }
 
         .container { width: 100%; max-width: 500px; }
 
         .header-title { display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .header-title svg { width: 22px; height: 22px; fill: #888; flex-shrink: 0; }
+        .header-title svg { width: 22px; height: 22px; fill: var(--label-color); flex-shrink: 0; }
         .header-title h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.1rem; color: #fff;
+            font-size: 1.1rem; color: var(--title-color);
             letter-spacing: 2px; margin: 0;
             text-transform: uppercase;
         }
@@ -112,26 +140,27 @@
             padding: 20px;
             margin-bottom: 20px;
             width: 100%;
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         h2 {
             font-family: 'Playfair Display', serif;
-            color: #fff; font-size: 1.2rem;
-            margin: 0 0 15px 0; border-bottom: 1px solid #333;
+            color: var(--title-color); font-size: 1.2rem;
+            margin: 0 0 15px 0; border-bottom: 1px solid var(--border-color);
             padding-bottom: 8px;
         }
 
-        .f-red { background-color: var(--fosfor-kirmizi); padding: 0 4px; border-radius: 4px; color: #ff8a8a; display: inline-block; margin: 2px 1px; }
-        .f-yellow { background-color: var(--fosfor-sari); padding: 0 4px; border-radius: 4px; color: #ffe57f; display: inline-block; margin: 2px 1px; }
-        .f-blue { background-color: var(--fosfor-mavi); padding: 0 4px; border-radius: 4px; color: #80d8ff; display: inline-block; margin: 2px 1px; }
+        .f-red { background-color: var(--fosfor-kirmizi); padding: 0 4px; border-radius: 4px; color: #ff5e5e; display: inline-block; margin: 2px 1px; }
+        .f-yellow { background-color: var(--fosfor-sari); padding: 0 4px; border-radius: 4px; color: #d4af37; display: inline-block; margin: 2px 1px; }
+        .f-blue { background-color: var(--fosfor-mavi); padding: 0 4px; border-radius: 4px; color: #0091ea; display: inline-block; margin: 2px 1px; }
 
         .info-group { margin-bottom: 15px; }
-        .label { display: block; color: #666; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+        .label { display: block; color: var(--label-color); font-size: 0.75rem; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
         .content { display: block; font-size: 0.95rem; word-wrap: break-word; }
 
-        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.82rem; background: #1e1e1e; border-radius: 8px; overflow: hidden; }
-        th, td { border: 1px solid #333; padding: 10px; text-align: left; vertical-align: top; }
-        th { background: #252525; color: #fff; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.82rem; background: var(--table-bg); border-radius: 8px; overflow: hidden; transition: background-color 0.3s; }
+        th, td { border: 1px solid var(--border-color); padding: 10px; text-align: left; vertical-align: top; }
+        th { background: rgba(128, 128, 128, 0.1); color: var(--title-color); font-weight: 600; }
 
         .footer-section {
             display: flex; justify-content: center; gap: 8px;
@@ -143,7 +172,7 @@
             align-items: center;
             gap: 8px;
             background: rgba(98, 70, 234, 0.1);
-            color: #ffffff;
+            color: var(--text-color);
             text-decoration: none;
             padding: 6px 14px;
             border-radius: 50px;
@@ -160,8 +189,8 @@
             transform: scale(0.95);
         }
 
-        .schedule-btn-small svg { color: #a29bfe; width: 14px; height: 14px; }
-        .arapca { font-size: 1.2rem; color: #fff; font-family: 'Playfair Display', serif; }
+        .schedule-btn-small svg { color: #6246ea; width: 14px; height: 14px; }
+        .arapca { font-size: 1.2rem; color: var(--title-color); font-family: 'Playfair Display', serif; }
     </style>
 </head>
 <body>
@@ -217,7 +246,7 @@
 
 <header>
     <div class="menu-btn" onclick="toggleMenu()" style="background: transparent; border: none; padding: 0;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -265,7 +294,7 @@
                 • <span class="f-yellow">İstidlâlî:</span> Bilinenden bilinmeyene ulaşmak (Delil/Düşünce).
             </span>
         </div>
-        <div class="info-group" style="border-top: 1px solid #333; padding-top:10px;">
+        <div class="info-group" style="border-top: 1px solid var(--border-color); padding-top:10px;">
             <span class="content"><i>Not: Sahih haber ile <span class="f-red">Sahih akıl çelişmez.</span></i></span>
         </div>
     </div>
@@ -350,7 +379,7 @@
             <tr><td>İnikas-ı Edille</td><td>Delil çürürse <span class="f-red">hüküm de çürür.</span></td></tr>
             <tr><td>Kıyasü'l-Gaib</td><td>Görünenden hareketle görünmeyeni anlama.</td></tr>
         </table>
-        <div class="info-group" style="border-top: 1px dotted #555; padding-top:10px;">
+        <div class="info-group" style="border-top: 1px dotted var(--label-color); padding-top:10px;">
             <span class="content"><b>İmam Cüveyni:</b> Sistematik/Mütekaddimun. İnikas-ı edille'yi çürütmüştür.</span><br>
             <span class="content"><b>Müteahhirin:</b> Gazzali ile başlar. <span class="f-yellow">Mantığı Kelama dahil etmiştir.</span></span>
         </div>
@@ -418,7 +447,7 @@
                 • <b>Vahdet - Kesret:</b> Birlik - Çokluk.
             </span>
         </div>
-        <div class="info-group" style="border-top: 1px solid #333; padding-top:10px;">
+        <div class="info-group" style="border-top: 1px solid var(--border-color); padding-top:10px;">
             <span class="content"><i>"Maluliyeti kabul eden fail-i muhtarı reddeder."</i></span>
         </div>
     </div>
